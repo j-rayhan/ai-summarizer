@@ -7,7 +7,7 @@ interface Article {
   summary: string,
 }
 function Demo() {
-  const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
+  const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery<any>();
   const [articles, setArticles] = React.useState<Article[] | []>([]);
   const [article, setArticle] = React.useState<Article>({
     url: '',
@@ -20,10 +20,10 @@ function Demo() {
       setArticles(JSON.parse(localStorArticle))
     }
   }, [])
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     try {
       e.preventDefault();
-      const isExist = articles.find(({url}) => article.url === url);
+      const isExist = articles.find(({ url }) => article.url === url);
       if (isExist) {
         const newArticle = {
           ...article,
@@ -120,9 +120,9 @@ function Demo() {
                 <span className='blue_gradient ml-1'>Summary</span>
               </h2>
               <div className='summary_box'>
-              <p className='font-inter font-medium text-sm text-gray-700'>
-                {article.summary}
-              </p>
+                <p className='font-inter font-medium text-sm text-gray-700'>
+                  {article.summary}
+                </p>
               </div>
             </div>
           ) : null
